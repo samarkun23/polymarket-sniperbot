@@ -8,6 +8,7 @@ A high-performance Rust-based tool for monitoring and "sniping" binary options m
 
 ## ✨ Key Features
 
+- **Real-time TUI Dashboard**: A polished terminal interface featuring a price sparkline, expiry gauge, and momentum meter.
 - **Automated Market Discovery**: Dynamically calculates and targets `btc-updown-5m` slugs based on real-time Unix timestamps.
 - **Real-time CLOB Integration**: Connects directly to Polymarket's Central Limit Order Book via WebSockets for live price updates.
 - **Momentum Tracking**: Implements a rolling window analysis (10-tick depth) to calculate price momentum and trend strength.
@@ -64,20 +65,15 @@ Run the sniper using Cargo:
 cargo run
 ```
 
-The tool will start logging to the console and a local `market_logX.txt` file.
+The tool will launch the TUI dashboard. Press **'q'** to exit. All data is also logged to a local `market_logX.txt` file.
 
-## 📝 Example Output
+## 🖥 TUI Layout
 
-```text
-📝 Logging into: market_log1.txt
-Trying slug: btc-updown-5m-1716819300
-Market: Will Bitcoin be above $68,400 at 2:15 PM? | Bid: 48¢
-✅ Active market mili! WebSocket subscribe karte hain...
-⏰ Market ends at unix: 1716819600
-📡 Subscribed! Live feed:
-⏱️ 45s | 💰 Price: 52¢ | Size: 1000 | Bid: 50¢ | Momentum: +2.10%
-🎯 SNIPER! ⏱️ 22s | BUY UP @ 72¢ | Momentum: +6.45%
-```
+- **Market Header**: Shows the current active question and target slug.
+- **Expiry Countdown**: A color-coded gauge showing time remaining until market resolution.
+- **Price History**: A live sparkline showing the last 50 price ticks.
+- **Stats Panel**: Real-time display of Current Price, Best Bid, Size, and Momentum %.
+- **Sniper Signals**: A dedicated log window for high-probability trade alerts.
 
 ## ⚠️ Disclaimer
 
@@ -86,3 +82,61 @@ Market: Will Bitcoin be above $68,400 at 2:15 PM? | Bid: 48¢
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## improvment 
+  💡 New Features to Add (Roadmap)
+
+  To take this from a "Signaling Tool" to a "Professional Trading Bot," here are the most impactful features you can add:
+
+  1. Automated Execution (The "Real" Sniper)
+  Currently, the bot only tells you when to buy.
+   * Feature: Integrate Polymarket's Order Book API to place trades automatically.
+   * Tech: You'll need to implement EIP-712 signing (using ethers-rs) and manage API Keys/Passphrases.
+   * Benefit: Eliminates human latency. The bot buys the instant the 30-second window opens and conditions are met.
+
+  2. TUI Dashboard (Terminal UI)
+  The current scrolling text is hard to read during fast moves.
+   * Feature: Use the ratatui (https://github.com/ratatui-org/ratatui) crate to create a visual dashboard.
+   * Tech: Show a real-time price graph, a countdown timer bar, and a "Live Momentum" meter in the terminal.
+
+  3. Backtesting Module
+  You have all those market_log.txt files—use them!
+   * Feature: Create a script that "replays" your logs to see how many of your sniper signals would have actually been profitable.
+   * Benefit: You can tune your momentum > 5.0 threshold to a more optimal number (like 3.2 or 7.5) based on historical success.
+
+  4. Multi-Asset Monitoring
+   * Feature: Monitor ETH 5m markets or "Daily BTC High/Low" markets simultaneously.
+   * Tech: Use tokio::spawn to run multiple market trackers in parallel within the same process.
+
+  5. Telegram/Discord Alerts
+   * Feature: Send a notification to your phone when a high-probability "🎯 SNIPER!" signal is detected.
+   * Tech: Simple HTTP POST request to a Telegram Bot API.
+
+  6. Smart Exit Logic (Take Profit / Stop Loss)
+   * Feature: Most snipers only think about the entry. Add logic to "Sell" if the price hits 95¢ or if momentum suddenly reverses.
+
+  7. Configuration File (config.toml)
+   * Improvement: Move your constants (like 0.70 bid threshold or the 30s timer) out of main.rs and into a config file so you can change settings without recompiling the code.
+
+  Which of these would you like to explore or implement first? I can help you draft the code for any of them.
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+WebSocket Feed
+      |
+      v
+Market Monitor
+      |
+      v
+Channel
+      |
+      v
+Signal Engine
+      |
+      v
+Channel
+      |
+      v
+Order Executor
+      |
+      v
+Exchange
