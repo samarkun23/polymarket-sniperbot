@@ -10,6 +10,7 @@ use futures_util::{SinkExt, StreamExt};
 use reqwest::Client;
 use serde::Deserialize;
 use tokio::sync::Mutex;
+use tokio::sync::broadcast;
 use tokio_tungstenite::connect_async;
 use tokio_tungstenite::tungstenite::Message;
 
@@ -18,17 +19,14 @@ use ui::ui::ui;
 mod app;
 use app::App;
 use app::modules::Market;
+use app::modules::PriceUpdate;
 
 use crossterm::{
     event::{self, Event, KeyCode},
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
-use ratatui::{
-    Terminal,
-    backend::CrosstermBackend,
-};
-
+use ratatui::{Terminal, backend::CrosstermBackend};
 
 impl App {
     fn new() -> App {

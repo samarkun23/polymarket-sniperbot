@@ -1,4 +1,3 @@
-
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -34,4 +33,11 @@ pub struct App {
     pub logs: Vec<String>,
     pub should_quit: bool,
     pub status: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct PriceUpdate {
+    pub assest: String,
+    pub bid: f64,
+    pub momentum: f64
 }
