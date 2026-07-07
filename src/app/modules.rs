@@ -1,5 +1,17 @@
 use serde::Deserialize;
 
+#[derive(Clone, Debug)]
+pub struct MarketUpdate {
+    pub market_name: String,
+    pub bid: f64,
+    pub price: f64,
+    pub size: f64,
+    pub momentum: f64,
+    pub sec_left: i64,
+    pub price_history: Vec<u64>,
+    pub question: String,
+}
+
 #[derive(Deserialize, Debug)]
 pub struct Market {
     pub question: Option<String>,
@@ -39,5 +51,5 @@ pub struct App {
 pub struct PriceUpdate {
     pub assest: String,
     pub bid: f64,
-    pub momentum: f64
+    pub momentum: f64,
 }
