@@ -120,6 +120,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
   Which of these would you like to explore or implement first? I can help you draft the code for any of them.
 ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+src/
+├── main.rs          (entry point)
+├── provider.rs      (TradeProvider - execution engine)
+├── market_worker.rs (MarketWorker - websocket handler)  
+├── ui.rs            (UI rendering)
+├── types.rs         (all structs/enums)
+└── strategies.rs    (trading strategies)
 
 WebSocket Feed
       |
